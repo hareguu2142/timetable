@@ -28,31 +28,7 @@ import java.util.Calendar
 import org.json.JSONArray
 import java.io.File
 import android.Manifest
-class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "table.db", null, 1) {
-
-    override fun onCreate(db: SQLiteDatabase) {
-        val createTable = """
-                    val DATABASE_PATH = "${Environment.getExternalStorageDirectory()}/Download/table.db"
-            CREATE TABLE timetable (
-                _id INTEGER PRIMARY KEY AUTOINCREMENT,
-                day TEXT,
-                period INTEGER,
-                lesson TEXT
-            );
-        """
-        db.execSQL(createTable)
-        // TODO: 필요한 경우 초기 데이터 삽입
-    }
-
-    override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        // DB 스키마가 변경될 경우 업그레이드 로직 추가
-    }
-}
-
 class MainActivity : AppCompatActivity() {
-    companion object {
-        const val REQUEST_CODE_READ_STORAGE = 1001
-    }
 
     fun readJsonFromAssets(fileName: String): String {
         val assetManager = assets
@@ -63,7 +39,6 @@ class MainActivity : AppCompatActivity() {
         inputStream.close()
         return String(buffer, Charsets.UTF_8)
     }
-
 
     fun getCurrentPeriod(): Int {
         val calendar = Calendar.getInstance()
@@ -84,18 +59,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     data class LessonInfo(val period: Int, val lesson: String)
 
-
-
     fun getCurrentLessonFromJSON(): LessonInfo {
-
-        val currentPeriod = getCurrentPeriod()  // 현재 교시를 가져옵니다.
-
-        // Assets 폴더에서 JSON 파일 읽기
+        val currentPeriod = getCurrentPeriod()
         val jsonData = readJsonFromAssets("timetable.json")
-
         val jsonArray = JSONArray(jsonData)
         var lesson = "No lesson"
 
@@ -114,8 +82,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val jsonString = readJsonFromAssets("timetable.json")
-
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 1)
         }
@@ -125,35 +91,5 @@ class MainActivity : AppCompatActivity() {
             val lessonInfo = getCurrentLessonFromJSON()
             Toast.makeText(this, "현재 교시: ${lessonInfo.period}, 수업: ${lessonInfo.lesson}", Toast.LENGTH_LONG).show()
         }
-
-        // 파일을 선택하는 Intent를 생성
-        val chooseFileIntent = Intent(Intent.ACTION_GET_CONTENT).apply {
-            type =
-                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" // .xlsx 파일만 필터링
-            addCategory(Intent.CATEGORY_OPENABLE)
-        }
-
-        // ActivityResultLauncher를 사용하여 파일 선택 결과를 받아옴
-        val filePickerLauncher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-                if (result.resultCode == Activity.RESULT_OK) {
-                    val selectedFileUri = result.data?.data
-                    // TODO: 선택된 파일 처리
-                }
-            }
-
-        // 버튼 클릭 시 파일 선택 Intent 실행
-        val chooseFileButton: Button = findViewById(R.id.chooseFileButton)
-        chooseFileButton.setOnClickListener {
-            filePickerLauncher.launch(chooseFileIntent)
-        }
     }
-
-
-
 }
-
-
-
-
-
