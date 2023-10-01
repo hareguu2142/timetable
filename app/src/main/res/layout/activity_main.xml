@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- 두 번째 메뉴 버튼 -->
+    <Button
+        android:id="@+id/chooseFileButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="엑셀 파일 선택" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="두 번째 메뉴"
+        android:layout_marginTop="16dp"/>
+
+
+    <Button
+        android:id="@+id/showLessonButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="현재 교시 보기" />
+
+</LinearLayout>
