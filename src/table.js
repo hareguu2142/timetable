@@ -123,9 +123,24 @@ function loadTeachers(period) {
 }
 
 // initializePage 함수를 다음과 같이 수정합니다.
+function updateDateInfo() {
+    const today = new Date();
+    const options = { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+    };
+    const dateString = today.toLocaleDateString('ko-KR', options);
+    
+    const dateInfo = document.getElementById('dateInfo');
+    dateInfo.textContent = `오늘은 ${dateString} 입니다.`;
+}
+
 async function initializePage() {
     showLoading();
     await fetchTimetable();
+    updateDateInfo(); // 날짜 정보 업데이트
     hideLoading();
     
     loadTeachers(1); // 1교시 데이터 로드
