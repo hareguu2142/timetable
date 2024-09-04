@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timetable</title>
+    <style>
+        .container {
+            display: flex;
+        }
+        .periods {
+            width: 200px;
+        }
+        .teachers, .details {
+            margin-left: 20px;
+        }
+        .no-class {
+            color: gray;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="periods">
+            <h2>교시</h2>
+            <button onclick="loadTeachers(1)">1교시</button>
+            <button onclick="loadTeachers(2)">2교시</button>
+            <button onclick="loadTeachers(3)">3교시</button>
+            <button onclick="loadTeachers(4)">4교시</button>
+            <button onclick="loadTeachers(5)">5교시</button>
+            <button onclick="loadTeachers(6)">6교시</button>
+            <button onclick="loadTeachers(7)">7교시</button>
+        </div>
+        <div class="teachers">
+            <h2>교사</h2>
+            <ul id="teacherList"></ul>
+        </div>
+        <div class="details">
+            <h2>수업 정보</h2>
+            <p id="classInfo"></p>
+        </div>
+    </div>
+    <script src="/js/table.js"></script>
+</body>
+</html>
