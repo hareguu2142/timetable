@@ -9,57 +9,74 @@
             font-family: 'Arial', sans-serif;
             background-color: #f0f0f0;
             margin: 0;
-            padding: 20px;
+            padding: 0;
         }
         .container {
-            display: flex;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            overflow: hidden;
-        }
-        .periods {
-            width: 150px;
-            background-color: #4a90e2;
+            max-width: 1200px;
+            margin: 0 auto;
             padding: 20px;
         }
-        .periods h2 {
+        .date-info {
+            text-align: center;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #4a90e2;
             color: white;
-            margin-top: 0;
+            border-radius: 5px;
+        }
+        .periods {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
         }
         .periods button {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
+            padding: 10px 15px;
             background-color: white;
-            border: none;
+            border: 1px solid #4a90e2;
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
         }
         .periods button:hover, .periods button.active {
-            background-color: #e0e0e0;
+            background-color: #4a90e2;
+            color: white;
+        }
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
         }
         .teachers, .details {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
             padding: 20px;
         }
         .teachers {
-            width: 200px;
-            border-right: 1px solid #e0e0e0;
+            flex: 0 0 auto;
+            width: max-content;
+            max-width: 30%;
         }
         .details {
-            flex-grow: 1;
+            flex: 1;
+            min-width: 250px;
         }
         #teacherList {
             list-style-type: none;
             padding: 0;
+            margin: 0;
+            max-height: 300px;
+            overflow-y: auto;
         }
         #teacherList li {
             padding: 10px;
             border-bottom: 1px solid #e0e0e0;
             cursor: pointer;
             transition: background-color 0.3s;
+            white-space: nowrap;
         }
         #teacherList li:hover, #teacherList li.active {
             background-color: #f0f0f0;
@@ -83,23 +100,25 @@
             padding: 20px;
             border-radius: 5px;
         }
-        .date-info {
-    text-align: center;
-    font-size: 1.2em;
-    margin-bottom: 20px;
-    padding: 10px;
-    background-color: #4a90e2;
-    color: white;
-    border-radius: 5px;
-}
+        @media (max-width: 600px) {
+            .periods button {
+                flex: 1 0 calc(33.333% - 10px);
+            }
+            .content {
+                flex-direction: column;
+            }
+            .teachers {
+                width: 100%;
+                max-width: none;
+            }
+        }
     </style>
 </head>
 <body>
     <div id="loadingIndicator" style="display: none;">로딩 중...</div>
-    <div id="dateInfo" class="date-info"></div>
     <div class="container">
+        <div id="dateInfo" class="date-info"></div>
         <div class="periods">
-            <h2>교시</h2>
             <button onclick="loadTeachers(1)" id="period1">1교시</button>
             <button onclick="loadTeachers(2)" id="period2">2교시</button>
             <button onclick="loadTeachers(3)" id="period3">3교시</button>
@@ -108,13 +127,15 @@
             <button onclick="loadTeachers(6)" id="period6">6교시</button>
             <button onclick="loadTeachers(7)" id="period7">7교시</button>
         </div>
-        <div class="teachers">
-            <h2>교사</h2>
-            <ul id="teacherList"></ul>
-        </div>
-        <div class="details">
-            <h2>수업 정보</h2>
-            <div id="classInfo"></div>
+        <div class="content">
+            <div class="teachers">
+                <h2>교사</h2>
+                <ul id="teacherList"></ul>
+            </div>
+            <div class="details">
+                <h2>수업 정보</h2>
+                <div id="classInfo"></div>
+            </div>
         </div>
     </div>
     <script src="/js/table.js"></script>
